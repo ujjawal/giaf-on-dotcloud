@@ -1,0 +1,8 @@
+/wtfornot/.bundle
+
+/wtfornot/db/*.sqlite3
+
+/wtfornot/log/*.log
+/wtfornot/tmp
+/wtfornot/public/system/files/*
+
