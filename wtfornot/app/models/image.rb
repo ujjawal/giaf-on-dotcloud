@@ -1,7 +1,24 @@
+class ContentTypeValidator < ActiveModel::Validator
+  def validate(record)
+    if !record.file_content_type.blank? and !['image/jpeg', 'image/gif','image/png'].include?(record.file_content_type)
+      record.errors[:base] << "Image '#{record.file_file_name}' is not a valid image type"
+    end
+    if record.file_content_type.blank? or record.file_file_name.blank? or record.file_file_size.blank?
+      record.errors[:base] << "Image can't be blank"
+    end
+    if !record.file_file_size.blank? and (record.file_file_size <= 0 or record.file_file_size > 1048576)
+      record.errors[:base] << "Image size should be between 0 and 1MB"
+    end
+  end 
+end
+
 class Image < ActiveRecord::Base
 
   paginates_per 4
-  validates :file_file_name, :file_content_type, :file_file_size, :presence => true
+
+  #validates :file_file_name, :file_content_type, :file_file_size, :presence => true
+  
+  validates_with ContentTypeValidator
 
   belongs_to :user
 
@@ -25,6 +42,5 @@ class Image < ActiveRecord::Base
     :s3_credentials => S3_CREDENTIALS,
     :path => ":attachment/:id/:style.:extension",
     :convert_options => { :all => "-auto-orient" }
-  validates_attachment_content_type :file, :content_type => ['image/jpeg', 'image/png','image/gif']
-  validates_attachment_size :file, :less_than => 1.megabytes
+  
 end
