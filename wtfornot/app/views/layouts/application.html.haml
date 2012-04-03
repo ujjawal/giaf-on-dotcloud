@@ -1,0 +1,46 @@
+%html
+  %head
+    %title Give it a fuck
+    = favicon_link_tag
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    :javascript
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-30464576-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+  %body
+    -#Begin W3Counter Tracking Code -->
+    .tracker
+      = javascript_include_tag "http://www.w3counter.com/tracker.js"
+      :javascript
+        w3counter(61093);
+    -#End W3Counter Tracking Code-->
+    
+    .wrapper
+      .heading
+        = link_to "GIAF (accepts only jpeg, png and gif)", root_url, :title => "Give it a fuck (accepts only jpeg, png and gif)"
+        .user
+          - if user_signed_in?
+            %p #{current_user.username}
+            = link_to "Edit Info", edit_user_registration_path
+            = link_to "Sign out", destroy_user_session_path(:next => request.path), :method =>"delete" 
+          - else
+            %p #{User::ANON}
+            = link_to "Sign in", new_user_session_path
+        %br    
+        %hr
+      .content
+        = yield
+      .push
+    .footer
+      %h4 Made for Redditors, by a Redditor
+      %hr
+

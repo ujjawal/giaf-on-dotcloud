@@ -1,0 +1,68 @@
+= stylesheet_link_tag 'hailwtfornots'
+= javascript_include_tag 'hailwtfornots'
+
+.how-strip
+  - h = Hailwtfornot.where(:id => 1).first
+  = link_to "1. Create your own wtfornot", new_path
+  - if h
+    = link_to "2. Earn Fucks. See a sample", "#{h.id}"
+  = link_to "3. Get featured on the leaderboard", root_url
+
+%h1.center Leaderboard
+
+.box
+  %h2 Most fucks given to these images
+  %p
+    .paginate
+      = paginate @images, :param_name => 'image_page'
+
+    - @images.each do |i|
+      .image-with-points
+        = hidden_field_tag nil, image_path(i), :class => ".hidden"
+        = image_tag i.file.url(:medium), :class => 'medium2'
+        %p #{i.points} fucks given
+
+.bottom
+
+.box
+  %h2 Most fucks given to these wtfornots
+  %p
+    .paginate
+      =paginate @hailwtfornots, :param_name => 'wtfornot_page'
+
+    - @hailwtfornots.each do |h|
+      - img1 = h.image_1
+      - img2 = h.image_2
+      .wtfornot
+        = hidden_field_tag nil, "#{h.id}", :class => ".hidden"
+        %p.center #{h.points} fucks given
+        .left
+          %p
+            = image_tag img1.file.url(:medium), :class=> 'medium3'
+            %h4.vs-index Vs
+
+        .right
+          %p
+            = image_tag img2.file.url(:medium), :class => 'medium3'
+
+  = button_to "Create your own wtfornot", new_path, :method => :get, :class => "buttonToSmall"
+.bottom
+
+.box
+  %h2 Most fucks given to these users
+  %p
+    .paginate
+      = paginate @users, :param_name => 'user_page'
+    
+    - @users.each do |u|
+      .user-with-image
+        = hidden_field_tag nil, user_path(u), :class => ".hidden"
+        .left
+          %p #{u.username}
+          %p #{u.points} fucks given
+        
+        .right
+          - if u.image
+            = image_tag u.image.file.url(:medium), :class => 'medium3'
+
+.bottom

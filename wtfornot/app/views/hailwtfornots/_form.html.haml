@@ -1,0 +1,24 @@
+= form_for @hailwtfornot, :html => { :multipart => true } do |f|
+  - if @hailwtfornot.errors.any?
+    #error_explanation
+      %h4= "#{pluralize(@hailwtfornot.errors.count, "error")} prohibited this wtfornot from being saved:"
+
+      %ul
+        - @hailwtfornot.errors.full_messages.each do |msg|
+          %li= msg
+
+  - if user_signed_in?
+    = f.hidden_field :user_id, { value: "#{current_user.id}" }
+
+  .field.form-padding.title
+    = f.label :title
+    = f.text_field :title
+  .field.form-padding.image
+    = f.label :image1
+    = render :partial => "images/basic_fields", :locals => { :obj => "image1"}
+
+  .field.form-padding.image
+    = f.label :image2
+    = render :partial => "images/basic_fields", :locals => { :obj => "image2"}
+  .actions.form-submit
+    = f.submit "Create wtfornot", :class => 'buttonTo'
