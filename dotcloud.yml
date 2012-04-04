@@ -5,3 +5,8 @@ data:
   type: mysql
 mailer:
   type: smtp
+  config:
+    smtp_relay_server: smtp.gmail.com
+    smtp_relay_port: 587
+    smtp_relay_username: notifications@giaf.co
+    smtp_relay_password: yamaha12
