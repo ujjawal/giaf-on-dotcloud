@@ -3,3 +3,5 @@ www:
   approot: wtfornot
 data:
   type: mysql
+mailer:
+  type: smtp
