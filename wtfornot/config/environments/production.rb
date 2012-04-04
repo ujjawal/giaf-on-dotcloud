@@ -58,7 +58,8 @@ Wtfornot::Application.configure do
     :port    => 25899,
     :user_name => "dotcloud",
     :password => "80Ef1EULYM2bt4m7iRbO",
-    :domain  => 'www.giaf.co'
+    :domain  => 'www.giaf.co',
+    :authentication => :cram_md5
   }
 
   # Enable threaded mode
